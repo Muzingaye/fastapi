@@ -25,7 +25,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
 
 
 @router.post( '/', status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
-def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), user_id : int = Depends(oauth2.get_current_user)):
+def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), current_user : int = Depends(oauth2.get_current_user)):
     new_post = models.Post(**post.model_dump())
     db.add(new_post)
     db.commit()
@@ -34,7 +34,7 @@ def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), user_id
 
 
 @router.delete('/{id}')
-def delete_post(id: int, db: Session = Depends(get_db)):
+def delete_post(id: int, db: Session = Depends(get_db), current_user : int = Depends(oauth2.get_current_user)):
 
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
@@ -47,7 +47,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 
 @router.put('/{id}', response_model=schemas.Post)
-def update_post(id: int, post: schemas.PostCreate, db: Session = Depends(get_db)):
+def update_post(id: int, post: schemas.PostCreate, db: Session = Depends(get_db), current_user : int = Depends(oauth2.get_current_user)):
 
     db_post = db.query(models.Post).filter(models.Post.id == id).first()
     if not db_post:
