@@ -1,21 +1,16 @@
-from fastapi import FastAPI, status, Response, HTTPException
+from fastapi import FastAPI, status, Response, HTTPException, Depends
 from fastapi.params import Body
 from pydantic import BaseModel
-from random import randrange
-import uvicorn
 import pyodbc
 import time
+from .models import models
+from .models.database import engine, get_db
+from sqlalchemy.orm import Session
+
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(debug=True)
-
-
-
-
-class Post(BaseModel):
-    # id: int
-    title: str
-    content: str
-    published: bool
 
 
 while True:
@@ -23,6 +18,7 @@ while True:
         conn = pyodbc.connect(
             "DRIVER={ODBC Driver 17 for SQL Server};"
             "SERVER=localhost;"
+            "DATABASE=FastApi;"
             "DATABASE=FastApi;"
             "Trusted_Connection=yes;"
             "TrustServerCertificate=yes;"
@@ -37,101 +33,53 @@ while True:
 
 
 
-    published: bool = True
-
-my_post = [
-    {"title": "title to post", "content":"content to post 1", "id":1},
-    {"title": "title to post2", "content":"content to post 2", "id":2},
-    ]
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World!!"}
-
 
 @app.get('/posts')
-def get_post():
-    cursor.execute(""" select * from Posts """)
-    c = [col[0] for col  in cursor.description]
-    posts =  [
-        dict(zip(c, r))
-        for r in cursor.fetchall()
-    ]
+def get_post(db: Session = Depends(get_db)):
+    posts  = db.query(models.Post).all()
     return {"data": posts}
 
 
 @app.get('/posts/{id}')
-def get_post(id: int, response: Response):
-    cursor.execute("""SELECT * FROM Posts where Id = ? """, (id,))
-    post = cursor.fetchone()
+def get_post(id: int, db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
-        response.status_code = status.HTTP_404_NOT_FOUND
-        return {"message": "Post not found"}
-    
-    response.status_code = status.HTTP_200_OK
-    # response.status_code = status.HTTP_404_NOT_FOUND if not post else status.HTTP_201_CREATED
-    columns = [column[0] for column in cursor.description]
-    post_dict = dict(zip(columns, post))
-    return {"data": post_dict}
+        raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'post with id: {id} was not found')
+    return {"data": post}
 
-def find_post(id):
-    return (p for p in my_post if p['id'] == id)
 
 @app.post( '/posts', status_code=status.HTTP_201_CREATED)
-def create_post(post: Post):
-    cursor.execute(""" INSERT INTO Posts (title, content, published) 
-        OUTPUT inserted.title
-        VALUES (?, ?, ?)""", (
-            post.title, post.content, post.published
-    ))
-    inserted_title = cursor.fetchone()[0]
-    conn.commit()
-    return {"data": inserted_title}
+def create_post(post: dict, db: Session = Depends(get_db)):
+    new_post = models.Post(**post)
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
+    return {"data": new_post}
 
 
 @app.delete('/posts/{id}')
-def delete_post(id: int, response: Response):
-    cursor.execute("""
-        DELETE FROM Posts 
-        OUTPUT deleted.title
-        WHERE Id = ? 
-    """, (id,))
-    del_post = cursor.fetchone()
-    if not del_post:
-        response.status_code = status.HTTP_404_NOT_FOUND 
-        return {"message": "Post not found"}
-    response.status_code = status.HTTP_204_NO_CONTENT
+def delete_post(id: int, db: Session = Depends(get_db)):
+
+    post = db.query(models.Post).filter(models.Post.id == id).first()
+    if not post:
+            raise HTTPException(status_code =status.HTTP_204_NO_CONTENT, detail=f'post with id: {id} was not found')
+    # post.delete(synchronize_session=False)
+    db.delete(post)
+    db.commit()
     return
 
 
 
 @app.put('/posts/{id}')
-def update_post(id: int, post: Post):
-    cursor.execute("""
-           UPDATE Posts
-           SET title  = ?, content =?, published=?
-          OUTPUT inserted.Id, inserted.title, inserted.content, inserted.published
-           WHERE Id = ? 
-       """, (post.title, post.content, post.published,  id,)
-    )
-    updated_post = cursor.fetchone()
-    if not updated_post:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Post not found"
-        )
-    conn.commit()
+def update_post(id: int, post: dict, db: Session = Depends(get_db)):
 
-    c = [col[0] for col in cursor.description]
-    data = dict(zip(c, updated_post))
-    return {"data": data}
-
-
-
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="127.0.0.1",
-        port=8000,
-        reload=True
-    )
+    db_post = db.query(models.Post).filter(models.Post.id == id).first()
+    if not db_post:
+            raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'post with id: {id} was not found')
+    
+    for k, v in post.items():
+         setattr(db_post, k, v)
+    
+    db.commit()
+    db.refresh(db_post)
+    return {"data": db_post}
