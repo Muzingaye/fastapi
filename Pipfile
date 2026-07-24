@@ -7,6 +7,8 @@ name = "pypi"
 fastapi = {extras = ["all"], version = "*"}
 pyodbc = "*"
 sqlalchemy = "*"
+passlib = {extras = ["bcrypt"], version = "*"}
+bcrypt = "==4.1.3"
 
 [dev-packages]
 
