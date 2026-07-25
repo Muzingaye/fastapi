@@ -12,11 +12,17 @@ router = APIRouter(
 )
 
 @router.get('/',  response_model=List[schemas.Post])
-def get_post(db: Session = Depends(get_db)):
-    posts  = db.query(models.Post).all()
+def get_posts(db: Session = Depends(get_db), limit: int = 10, skip=0):
+    posts = (
+        db.query(models.Post)
+        # .filter(models.Post.userId == current_user.id)
+        .order_by(models.Post.createdDate.desc()).limit(limit).offset(skip)
+        .all()
+    )
+
     return posts
 
-@router.get('//{id}', response_model=schemas.Post)
+@router.get('/{id}', response_model=schemas.Post)
 def get_post(id: int, db: Session = Depends(get_db)):
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:

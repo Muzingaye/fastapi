@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 from .database import Base
 
 
@@ -19,6 +20,7 @@ class Post(Base):
         server_default=func.now()   # or text("GETDATE()")
     )
     userId = Column(Integer, ForeignKey("dbo.Users.id", ondelete="Cascade"), nullable= False)
+    owner = relationship("User")
 
 
 
