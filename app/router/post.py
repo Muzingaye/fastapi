@@ -26,7 +26,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
 
 @router.post( '/', status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
 def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), current_user : int = Depends(oauth2.get_current_user)):
-    new_post = models.Post(**post.model_dump())
+    new_post = models.Post(**post.model_dump(), userId=current_user.id)
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
@@ -39,6 +39,13 @@ def delete_post(id: int, db: Session = Depends(get_db), current_user : int = Dep
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
             raise HTTPException(status_code =status.HTTP_204_NO_CONTENT, detail=f'post with id: {id} was not found')
+
+    if post.userId != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to delete this post"
+        )
+        
     # post.delete(synchronize_session=False)
     db.delete(post)
     db.commit()
@@ -52,6 +59,12 @@ def update_post(id: int, post: schemas.PostCreate, db: Session = Depends(get_db)
     db_post = db.query(models.Post).filter(models.Post.id == id).first()
     if not db_post:
             raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'post with id: {id} was not found')
+
+    if db_post.userId != current_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not authorized to update this post"
+            )
     
     for k, v in post.model_dump().items():
          setattr(db_post, k, v)

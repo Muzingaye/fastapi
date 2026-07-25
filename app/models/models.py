@@ -18,7 +18,7 @@ class Post(Base):
         nullable=False,
         server_default=func.now()   # or text("GETDATE()")
     )
-    userId = Column(Integer, ForeignKey("Users.Id", ondelete="Cascade"), nullable= False)
+    userId = Column(Integer, ForeignKey("dbo.Users.id", ondelete="Cascade"), nullable= False)
 
 
 
