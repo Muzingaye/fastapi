@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql import func
@@ -18,6 +18,7 @@ class Post(Base):
         nullable=False,
         server_default=func.now()   # or text("GETDATE()")
     )
+    userId = Column(Integer, ForeignKey("Users.Id", ondelete="Cascade"), nullable= False)
 
 
 
