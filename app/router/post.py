@@ -1,6 +1,7 @@
 
 from fastapi import FastAPI, status, Response, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from typing import List, Optional
 from .. models import models, schemas, oauth2
 from .. models.database import engine, get_db
@@ -11,16 +12,47 @@ router = APIRouter(
     tags= ["Posts"]
 )
 
-@router.get('/',  response_model=List[schemas.Post])
+# @router.get('/',  response_model=List[schemas.Post])
+@router.get('/', response_model=List[schemas.PostOut])
 def get_posts(db: Session = Depends(get_db), limit: int = 10, skip=0, search: Optional[str] = "" ):
-    posts = (
-        db.query(models.Post)
-        .filter(models.Post.title.contains(search))
-        .order_by(models.Post.createdDate.desc()).limit(limit).offset(skip)
-        .all()
-    )
+    # posts = (
+    #     db.query(models.Post)
+    #     .filter(models.Post.title.contains(search))
+    #     .order_by(models.Post.createdDate.desc()).limit(limit).offset(skip)
+    #     .all()
+    # )
 
-    return posts
+    results = (db.query(models.Post, 
+                        func.count(models.Vote.postId).label("votes")
+                        )
+               .outerjoin(models.Vote, 
+                          models.Vote.postId== models.Post.id)
+               .group_by(
+                    models.Post.id,
+                    models.Post.title,
+                    models.Post.content,
+                    models.Post.published,
+                    models.Post.createdDate,
+                    models.Post.userId
+                    )
+                    .order_by(models.Post.createdDate.desc())
+                    .limit(limit)
+                    .offset(skip)
+                    .all())
+    
+    return [
+         {
+            "id": post.id,
+            "title": post.title,
+            "content": post.content,
+            "published": post.published,
+            "userId": post.userId,
+            "createdDate": post.createdDate,
+            "owner": post.owner,
+            "votes": votes
+         }
+         for post, votes in results
+    ]
 
 @router.get('/{id}', response_model=schemas.Post)
 def get_post(id: int, db: Session = Depends(get_db)):

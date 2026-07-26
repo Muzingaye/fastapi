@@ -19,8 +19,9 @@ class Post(Base):
         nullable=False,
         server_default=func.now()   # or text("GETDATE()")
     )
-    userId = Column(Integer, ForeignKey("dbo.Users.id", ondelete="Cascade"), nullable= False)
-    owner = relationship("User")
+    userId = Column(Integer, ForeignKey("dbo.Users.id", ondelete="Cascade"),
+                     nullable= False)
+    owner = relationship("User",foreign_keys=[userId] )
 
 
 
@@ -36,3 +37,16 @@ class User(Base):
         nullable=False,
         server_default=func.now()
     )
+    posts = relationship(
+        "Post",
+        back_populates="owner"
+    )
+
+
+
+class Vote(Base):
+    __tablename__ = "Votes"
+    __table_args__ = {"schema": "dbo"}
+
+    userId = Column(Integer, ForeignKey("dbo.Users.id", ondelete="Cascade"), primary_key= True)
+    postId = Column(Integer, ForeignKey("dbo.Posts.id", ondelete="Cascade"), primary_key= False)
