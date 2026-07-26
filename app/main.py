@@ -1,13 +1,6 @@
 from fastapi import FastAPI, status, Response, HTTPException, Depends
-from fastapi.params import Body
-from pydantic import BaseModel
-import pyodbc
-import time
-from .models import models, schemas, utils
-from .models.database import engine, get_db
-from sqlalchemy.orm import Session
-from typing import Optional, List
-
+from .models import models
+from .models.database import engine
 from .router import user, post, auth
 
 
