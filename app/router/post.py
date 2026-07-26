@@ -27,6 +27,7 @@ def get_posts(db: Session = Depends(get_db), limit: int = 10, skip=0, search: Op
                         )
                .outerjoin(models.Vote, 
                           models.Vote.postId== models.Post.id)
+                .filter(models.Post.title.contains(search))
                .group_by(
                     models.Post.id,
                     models.Post.title,
@@ -54,9 +55,15 @@ def get_posts(db: Session = Depends(get_db), limit: int = 10, skip=0, search: Op
          for post, votes in results
     ]
 
-@router.get('/{id}', response_model=schemas.Post)
+@router.get('/{id}', response_model=schemas.PostOut)
 def get_post(id: int, db: Session = Depends(get_db)):
-    post = db.query(models.Post).filter(models.Post.id == id).first()
+    # post = db.query(models.Post).filter(models.Post.id == id).first()
+    post = (db.query(models.Post, func.count(models.Vote.postId).label("Votes"))
+        .join(models.Vote, models.Vote.postId == models.Post.id, isouter=True)
+        .group_by(models.Post.id)
+        .filter(models.Post.id == id).first()
+        )
+    
     if not post:
         raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'post with id: {id} was not found')
     return post
