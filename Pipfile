@@ -12,9 +12,13 @@ python-jose = {extras = ["cryptography"], version = "*"}
 bcrypt = "==4.0.1"
 alembic = "*"
 imagekitio = "*"
+sqlmodel = "*"
+timescaledb = "*"
+requests = "*"
 
 [dev-packages]
 pytest = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.12"

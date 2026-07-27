@@ -79,8 +79,8 @@ def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), current
 
 
 
-async def upload_file(file: UploadFIle = File(...), caption: str = Form(""), db: Session = Depends(get_db)):
-     pass
+# async def upload_file(file: UploadFIle = File(...), caption: str = Form(""), db: Session = Depends(get_db)):
+#      pass
 
 
 @router.delete('/{id}')
@@ -95,7 +95,6 @@ def delete_post(id: int, db: Session = Depends(get_db), current_user : int = Dep
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to delete this post"
         )
-        
     # post.delete(synchronize_session=False)
     db.delete(post)
     db.commit()

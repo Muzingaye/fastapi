@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.models import models
 from app.models.database import engine
 from .router import user, post, auth, vote
+from .events.router import routing as event
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -23,3 +24,10 @@ app.include_router(auth.router)
 app.include_router(user.router)
 app.include_router(post.router)
 app.include_router(vote.router)
+app.include_router(vote.router)
+app.include_router(event.router)
+
+
+@app.get("/healthz")
+def read_ap_health():
+    return {"status": "ok"}
