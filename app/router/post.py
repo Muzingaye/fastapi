@@ -78,6 +78,11 @@ def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), current
     return new_post
 
 
+
+async def upload_file(file: UploadFIle = File(...), caption: str = Form(""), db: Session = Depends(get_db)):
+     pass
+
+
 @router.delete('/{id}')
 def delete_post(id: int, db: Session = Depends(get_db), current_user : int = Depends(oauth2.get_current_user)):
 

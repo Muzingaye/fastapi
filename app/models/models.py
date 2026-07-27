@@ -13,6 +13,9 @@ class Post(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(100), nullable=False)
     content = Column(String, nullable=False)
+    # url = Column(String, nullable=False)
+    # fileType = Column(String, nullable= False)
+    # fileName = Column(String(nullable=False))
     published = Column(Boolean, server_default='True', nullable=False)
     createdDate = Column(
         DateTime,
