@@ -14,11 +14,9 @@ alembic = "*"
 imagekitio = "*"
 sqlmodel = "*"
 timescaledb = "*"
-requests = "*"
 
 [dev-packages]
 pytest = "*"
-ipykernel = "*"
 
 [requires]
 python_version = "3.12"

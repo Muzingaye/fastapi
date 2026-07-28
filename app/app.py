@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.models import models
 from app.models.database import engine
 from .router import user, post, auth, vote
-from .events.router import routing as event
+from .events.router import event
 
 
 models.Base.metadata.create_all(bind=engine)
