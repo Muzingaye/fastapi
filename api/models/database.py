@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, DeclarativeBase, relationship
-from app.config import settings
+from api.config import settings
 
 SQL_DATABASE_URL = (
     f"mssql+pyodbc://{settings.database_hostname}/"

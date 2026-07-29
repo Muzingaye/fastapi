@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from ..schemas import EventSchema,EventCreate, EventUpdate
 from typing import List
 from ..models import Event
-from app.models.database import engine, get_db
-from app.models import oauth2
+from api.models.database import engine, get_db
+from api.models import oauth2
 
 
 router = APIRouter(

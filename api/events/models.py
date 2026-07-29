@@ -3,7 +3,7 @@ from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
-from app.models.database import Base
+from api.models.database import Base
 import sqlmodel
 from sqlmodel import SQLModel
 from datetime import datetime, timezone
