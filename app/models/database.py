@@ -8,9 +8,9 @@ from app.config import settings
 SQL_DATABASE_URL = (
     f"mssql+pyodbc://{settings.database_hostname}/"
     f"{settings.database_name}"
-    "?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes"
+    "?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes&timezone=UTC"
 )
-
+# create_engine(SQL_DATABASE_URL, timezone="UTC")
 engine= create_engine(SQL_DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False,  bind=engine)
