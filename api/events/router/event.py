@@ -17,15 +17,34 @@ router = APIRouter(
 
 @router.get('/{id}', response_model =EventSchema)
 def get_event(id: int, db:Session = Depends(get_db),limit:int =10):
-    event = db.query(Event).filter(Event.id == id).first()
-    if not event:
-        raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'event with id: {id} was not found')
+    query = (
+            select(
+                cast(Event.createdDate, Date).label("bucket"),
+                Event.page.label('page'),
+                func.count().label("count"),
+            )
+            .where(
+                Event.id == id,
+            )
+            .group_by(
+                cast(Event.createdDate, Date),
+                Event.page,
+            )
+            .order_by(
+                cast(Event.createdDate, Date).desc()
+            )
+        )
+    results = db.execute(query).first()
 
-    return event
+    # event = db.query(Event).filter(Event.id == id).first()
+
+    if not results:
+        raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'event with id: {id} was not found')
+    return results
 
 
 @router.get('/', response_model =List[EventSchema])
-def read_event(db:Session = Depends(get_db),limit:int =10):
+def read_event(db:Session = Depends(get_db)):
     query = (
         select(
             cast(Event.createdDate, Date).label("bucket"),
@@ -53,7 +72,7 @@ def read_event(db:Session = Depends(get_db),limit:int =10):
         
 
 
-@router.post("/", response_model=EventSchema)
+@router.post("/", response_model=EventCreate)
 def create_event(payload: EventCreate, db: Session = Depends(get_db)):
                 #   ?curr_user: int = Depends(oauth2.get_current_user)):
     new_event = Event(**payload.model_dump())

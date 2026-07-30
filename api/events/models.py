@@ -29,14 +29,14 @@ class Event(Base):
     description = Column(String, nullable=False)
     userId = Column(Integer, nullable=True)
     sessionId = Column(String(100), nullable=True)
-
+    # duration =  Column(Integer)
     ipAddress = Column(String(50), nullable=True)
     userAgent = Column(String(500), nullable=True)
     referrer = Column(String(500), nullable=True)
 
 
-    __chuck_time_interval__ =""
-    __drop_after__ = ""
+    # __chuck_time_interval__ =""
+    # __drop_after__ = ""
    
     createdDate = Column(
         DateTime,

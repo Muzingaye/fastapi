@@ -11,9 +11,12 @@ class EventSchema(BaseModel):
 
 class EventCreate(BaseModel):
     page: str
-    description: Optional[str] = Field("my default description")
-   
-
+    sessionId : str
+    description: Optional[str] = ""
+    ipAddress :Optional[str] = Field(default="")
+    userAgent : Optional[str] = Field(default="")
+    referrer : Optional[str]= Field(default="")
+    # duration: Optional[int] = Field(default=0)
 
 class EventUpdate(BaseModel):
     page: Optional[str] = ""
