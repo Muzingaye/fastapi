@@ -1,10 +1,11 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+from datetime import date
 
 class EventSchema(BaseModel):
-    id: int
+    count: int
+    bucket: Optional[date] = ""
     page: Optional[str] = ""
-    description: Optional[str] = ""
     
 
 

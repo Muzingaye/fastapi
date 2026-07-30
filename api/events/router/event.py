@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import select, func, cast, Date
+from timescaledb.hyperfunctions import time_bucket
 from sqlalchemy.orm import Session
 from ..schemas import EventSchema,EventCreate, EventUpdate
 from typing import List
@@ -24,10 +26,30 @@ def get_event(id: int, db:Session = Depends(get_db),limit:int =10):
 
 @router.get('/', response_model =List[EventSchema])
 def read_event(db:Session = Depends(get_db),limit:int =10):
-    events = db.query(Event).order_by(Event.createdDate.desc()).limit(10).all()
-    if not events:
+    query = (
+        select(
+            cast(Event.createdDate, Date).label("bucket"),
+            Event.page.label('page'),
+            func.count().label("count"),
+        )
+        # .where(
+        #     Event.createdDate >= start,
+        #     Event.createdDate <= finished
+        # )
+        .group_by(
+            cast(Event.createdDate, Date),
+            Event.page,
+        )
+        .order_by(
+            cast(Event.createdDate, Date).desc()
+        )
+    )
+    results = db.execute(query).all()
+    # print(results)
+    # events = db.query(Event).order_by(Event.createdDate.desc()).limit(10).all()
+    if not results:
         raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'No Upcoming ost found')
-    return events
+    return results
         
 
 
