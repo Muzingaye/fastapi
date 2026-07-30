@@ -28,6 +28,11 @@ app.include_router(vote.router)
 app.include_router(event.router)
 
 
+
+@app.get("/")
+def hello():
+    return {"message": "Hello World"}
+
 @app.get("/healthz")
 def read_ap_health():
     return {"status": "ok"}

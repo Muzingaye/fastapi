@@ -57,16 +57,47 @@ def get_posts(db: Session = Depends(get_db), limit: int = 10, skip=0, search: Op
 
 @router.get('/{id}', response_model=schemas.PostOut)
 def get_post(id: int, db: Session = Depends(get_db)):
-    post = db.query(models.Post).filter(models.Post.id == id).first()
+    # post = db.query(models.Post).filter(models.Post.id == id).first()
     # post = (db.query(models.Post, func.count(models.Vote.postId).label("Votes"))
     #     .join(models.Vote, models.Vote.postId == models.Post.id, isouter=True)
     #     .group_by(models.Post.id)
     #     .filter(models.Post.id == id).first()
     #     )
     
-    if not post:
+    results = (db.query(models.Post, 
+                            func.count(models.Vote.postId).label("votes")
+                            )
+                   .outerjoin(models.Vote, 
+                              models.Vote.postId== models.Post.id)
+                    .where(models.Post.id == id)
+                   .group_by(
+                        models.Post.id,
+                        models.Post.title,
+                        models.Post.content,
+                        models.Post.published,
+                        models.Post.createdDate,
+                        models.Post.userId
+                        )
+                        .order_by(models.Post.createdDate.desc())
+                        .first())
+
+    if not results:
         raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'post with id: {id} was not found')
-    return post
+
+
+    post, votes = results
+    return {
+        "id": post.id,
+        "title": post.title,
+        "content": post.content,
+        "published": post.published,
+        "userId": post.userId,
+        "createdDate": post.createdDate,
+        "owner": post.owner,
+        "votes": votes
+    }
+    
+    # return results
 
 
 @router.post( '/', status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
