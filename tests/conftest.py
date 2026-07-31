@@ -84,32 +84,39 @@ async def db_session(
 @pytest.fixture
 async def create_user(
     client: AsyncClient,
-    email: str = "test@example.com",
+    email: str = "test12w@example.com",
     password: str = "password123",
 )-> str:
-    resp = await client.post("/users",
+    resp = await client.post("/user",
                             json = {
                                   "email": email,
                                   "password": password,    
                             },
                         )
-    assert resp.status_code == 201, f"Failed to create the user, {resp.text}"
+
+    assert resp.status_code == 201
     return resp.json()
 
 
 @pytest.fixture
 async def login(
     client: AsyncClient,
-    email: str = "test@example.com",
+    email: str = "muzi@example.com",
     password: str = "password123",
-)-> str:
-    resp = await client.post("/auth",
-                            data = {
-                            "email": email,
-                            "password": password,
-                        },
-                    )
+) -> str:
+    resp = await client.post(
+        "/login",
+        data={
+            "username": email,
+            "password": password,
+        },
+    )
+
+    print("LOGIN STATUS:", resp.status_code)
+    print("LOGIN BODY:", resp.text)
+
     assert resp.status_code == 200, f"Failed to login {resp.text}"
+
     return resp.json()["access_token"]
 
 def auth_header(token: str) -> dict[str, str]:
@@ -118,6 +125,6 @@ def auth_header(token: str) -> dict[str, str]:
 
 
 @pytest.fixture
-async def client() -> AsyncGenerator[AsyncClient]:
-    async with AsyncClient(base_url="http://127.0.0.1:8000") as acc:
+async def client() -> AsyncGenerator[AsyncClient, None]:
+    async with AsyncClient(base_url="http://127.0.0.1:8000", follow_redirects=True) as acc:
         yield acc
