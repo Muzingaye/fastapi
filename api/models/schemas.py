@@ -12,6 +12,8 @@ class UserOut(BaseModel):
     email: EmailStr
     createdDate: datetime
 
+class UserForgotPassword:
+    token: str
 
 class UserLogin(BaseModel):
     email:EmailStr

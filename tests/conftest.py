@@ -84,7 +84,7 @@ async def db_session(
 @pytest.fixture
 async def create_user(
     client: AsyncClient,
-    email: str = "test12w@example.com",
+    email: str = "mtester@example.com",
     password: str = "password123",
 )-> str:
     resp = await client.post("/user",

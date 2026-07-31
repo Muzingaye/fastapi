@@ -12,11 +12,14 @@ router = APIRouter(
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model =schemas.UserOut)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+
+    db_user = db.query(models.User).filter(models.User.email == user.email).first()
+    print("user", db_user)
+    if user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
     hashed_password = utils.hash(user.password)
     user.password = hashed_password
-    print("hashed_password: ", user.password)
 
-    print("Len, :" , len(user.password.encode("utf-8")))
     new_user = models.User(email=user.email, password=hashed_password)
     db.add(new_user)
     db.commit()
@@ -30,3 +33,15 @@ def get_user(id: int, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'user with id: {id} was not found')
     return user
+
+
+
+# @router.get("/{email}", response_class=schemas.UserForgotPassword)
+# def forgot_password(email: str, db: Session = Depends(get_db)):
+#     res = db.execute(
+#         select(models.User).where(
+#             func.lower(models.User.email) == email # replacen this requesteddata
+#         )
+#     )
+
+#     user = res.scalar().first()
