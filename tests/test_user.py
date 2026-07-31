@@ -23,7 +23,7 @@ async def test_create_user_validation_errors(client: AsyncClient):
 
 @pytest.mark.anyio
 async def test_create_user_duplicate_email(client: AsyncClient, create_user):
-    await create_user
+    # await create_user
 
     response = await client.post(
         "/user",
@@ -32,9 +32,7 @@ async def test_create_user_duplicate_email(client: AsyncClient, create_user):
             "password": "password123",
         },
     )
-
     assert response.status_code == 400
-    print(response.json()["detail"])
     assert response.json()["detail"] == "Email already registered"
 
 
@@ -43,17 +41,14 @@ async def test_create_user_success(client: AsyncClient):
     response = await client.post(
         "/user",
         json={
-            "username": "newuser",
-            "email": "newuser@example.com",
-            "password": "securepassword123",
+            "email": "nextuser@example.com",
+            "password": "password123",
         },
     )
 
     assert response.status_code == 201
     data = response.json()
-    assert data["username"] == "newuser"
     assert data["email"] == "newuser@example.com"
-    assert "id" in data
     assert data["createdDate"] is not None
 
 

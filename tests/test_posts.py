@@ -53,7 +53,7 @@ async def test_update_post_success(client: AsyncClient, login):
     headers = auth_header(token)
 
     resp = await client.put(
-        "/posts/29", json={
+        "/posts/42", json={
             "title": "My Post Update", "content": "This is an update context",
         },
         headers=headers,

@@ -7,10 +7,14 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str
 
+    model_config = ConfigDict(from_attributes=True)
+
 class UserOut(BaseModel):
     id: int
     email: EmailStr
     createdDate: datetime
+
+    model_config = ConfigDict(from_attributes=True)
 
 class UserForgotPassword:
     token: str
