@@ -1,5 +1,15 @@
 version: "3"
 services:
+  db:
+    container_name: mssql
+    image:  mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    ports:
+      - "1433:1433"
+    environment:
+      DATABASE_URL: "mssql+pyodbc://localhost/FastApi?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes&timezone=UTC;"
+    volumes:
+      - mssql-data:/var/opt/mssql
   api:
     build: .
     ports: 

@@ -15,6 +15,9 @@ imagekitio = "*"
 sqlmodel = "*"
 timescaledb = "*"
 faker = "*"
+graphene = "*"
+graphene-sqlalchemy = "*"
+black = "*"
 
 [dev-packages]
 pytest = "*"
