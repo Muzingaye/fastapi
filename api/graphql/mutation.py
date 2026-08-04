@@ -1,6 +1,8 @@
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from models import models, database, utils
+from api.db import database
+from api.utls import utils
+from models import models
 from schema import UserType
 
 class CreateUser(graphene.Mutation):

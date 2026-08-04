@@ -1,21 +1,20 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.models import models
-from api.models.database import engine
+from api.db.database import Base, engine
 from .router import user, post, auth, vote
-from .events.router import event
+from .router import event
+from .config import settings
 import graphene
 from starlette_graphene3 import GraphQLApp
 # from api.graphql.schema import schema
 
-models.Base.metadata.create_all(bind=engine)
-app = FastAPI(debug=True)
+Base.metadata.create_all(bind=engine)
+app = FastAPI()
 
-origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=settings.allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

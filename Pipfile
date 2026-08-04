@@ -18,6 +18,9 @@ faker = "*"
 graphene = "*"
 graphene-sqlalchemy = "*"
 starlette-graphene3 = "*"
+langchain = "*"
+langchain-openai = "*"
+psycopg = {extras = ["binary"], version = "*"}
 
 [dev-packages]
 pytest = "*"

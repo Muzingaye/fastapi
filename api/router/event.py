@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select, func, cast, Date
 from timescaledb.hyperfunctions import time_bucket
 from sqlalchemy.orm import Session
-from ..schemas import EventSchema,EventCreate, EventUpdate
+from ..schemas.event import EventSchema,EventCreate, EventUpdate
 from typing import List
-from ..models import Event
-from api.models.database import engine, get_db
-from api.models import oauth2
+from ..models.event import Event
+from api.db.database import engine, get_db
+from api.services import oauth2
 
 
 router = APIRouter(
@@ -70,7 +70,6 @@ def read_event(db:Session = Depends(get_db)):
         raise HTTPException(status_code =status.HTTP_404_NOT_FOUND, detail=f'No Upcoming ost found')
     return results
         
-
 
 @router.post("/", response_model=EventCreate)
 def create_event(payload: EventCreate, db: Session = Depends(get_db)):

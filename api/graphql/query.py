@@ -1,5 +1,7 @@
 import graphene 
-from models import models, schemas, database
+from api.db import database
+from api.schemas import schemas
+from models import models
 from . schema import UserType
 
 class Query(graphene.ObjectType):
