@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from .. models import User
 from ..db.database import engine, get_db
 from ..schemas import schemas
-from ..services import oauth2
+from ..services.utls import oauth2
 from ..utls import utils
 
 router = APIRouter(

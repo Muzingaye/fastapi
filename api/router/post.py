@@ -1,12 +1,13 @@
 
-from fastapi import FastAPI, status, Response, HTTPException, Depends, APIRouter
+from fastapi import FastAPI, status, Response, HTTPException, Depends, APIRouter, Cookie
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import List, Optional
 from .. models import Post, Vote, User
 from ..db.database import engine, get_db
-from ..schemas import schemas
-from ..services import oauth2
+from ..schemas import schemas, job
+from ..services.utls import oauth2
+import uuid
 
 
 router = APIRouter(
@@ -14,6 +15,16 @@ router = APIRouter(
     tags= ["Posts"]
 )
 
+def get_session_id(session_id: Optional[str] = Cookie(None)):
+    if not session_id:
+        session_id = str(uuid.uuid4())
+        print(session_id)
+    return session_id
+
+@router.post('/create', response_model=job.StoryJobCreate)
+def create_session(request: job.StoryJobCreate, background_tasks: dict, 
+                   response: Response, session_id: str= Depends(get_session_id)):
+     pass
 # @router.get('/',  response_model=List[schemas.Post])
 @router.get('/', response_model=List[schemas.PostOut])
 def get_posts(db: Session = Depends(get_db), limit: int = 10, skip=0, search: Optional[str] = "" ):
@@ -42,6 +53,8 @@ def get_posts(db: Session = Depends(get_db), limit: int = 10, skip=0, search: Op
                     .limit(limit)
                     .offset(skip)
                     .all())
+
+    
     
     return [
          {

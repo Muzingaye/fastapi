@@ -6,7 +6,7 @@ from ..schemas.event import EventSchema,EventCreate, EventUpdate
 from typing import List
 from ..models.event import Event
 from api.db.database import engine, get_db
-from api.services import oauth2
+from api.services.utls import oauth2
 
 
 router = APIRouter(
