@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from  typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional
 
 
 class StoryOptionLLM(BaseModel):
@@ -10,7 +10,7 @@ class StoryOptionLLM(BaseModel):
 class StoryNodeLLM(BaseModel):
     content: str = Field(description="This  is the main content of the story")
     isEnding: bool = Field(description="")
-    isWinningEnding: bool = Field("Weather this node is winnind ending node")
+    isWinningEnding: bool = Field("Weather this node is winning ending node")
     options: Optional[List[StoryOptionLLM]] = Field(default=None, description="The option for this node")
 
 

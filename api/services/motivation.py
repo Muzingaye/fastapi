@@ -9,7 +9,6 @@ from langchain_core.output_parsers import PydanticOutputParser
 
 
 class Motivation:
-
     @classmethod
     def __get_llm(cls):
         return ChatOpenAI(model="gpt-4-turbo")
@@ -30,7 +29,7 @@ class Motivation:
                     f"Create the story with this {theme}"
                 )
             ]
-        ).partial(format_instrunctions=story_parser.get_format_instructions())
+        ).partial(format_instructions=story_parser.get_format_instructions())
 
         raw_response = llm.invoke(prompt.invoke({}))
 
