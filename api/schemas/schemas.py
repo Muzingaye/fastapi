@@ -71,3 +71,8 @@ class TokenData(BaseModel):
 class Vote(BaseModel):
     postId: int
     dir: conint(le=1)
+
+
+
+class SignOut(BaseModel):
+    email: str

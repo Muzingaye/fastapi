@@ -1,3 +1,4 @@
+from typing import Any, List, Optional
 from sqlalchemy.orm import Session
 from config import settings
 from .. models import post
@@ -48,13 +49,8 @@ class Motivation:
 
 
     @classmethod
-    def _process_story_node(
-        cls,
-        db: Session,
-        node_data: dict[str, Any],
-        is_root: bool = False,
-    ):
-       pass
+    def _process_story_node( cls, db: Session, node_data: dict[str, Any], is_root: bool = False):
+        session = db.SessionLocal()
 
     # @classmethod
     # def _process_story_node(cls, db: Session,  node_data: dict[str, Any], is_root: bool = False):

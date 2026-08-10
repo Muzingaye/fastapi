@@ -22,3 +22,10 @@ class User(Base):
         "Post",
         back_populates="owner"
     )
+
+
+# class RevokedToken(Base):
+#     __tablename__ = "revoked_tokens"
+
+#     id = Column(Integer, primary_key=True, index=True)
+#     token = Column(String, unique=True, nullable=False)
