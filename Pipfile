@@ -16,11 +16,13 @@ sqlmodel = "*"
 timescaledb = "*"
 faker = "*"
 graphene = "*"
-graphene-sqlalchemy = "*"
 starlette-graphene3 = "*"
 langchain = "*"
 langchain-openai = "*"
 psycopg = {extras = ["binary"], version = "*"}
+promise = "==2.3"
+graphql-core = "<3.3,>=3.2"
+graphql-relay = "<4,>=3"
 
 [dev-packages]
 pytest = "*"
@@ -28,3 +30,6 @@ pytest = "*"
 [requires]
 python_version = "3.12"
 python_full_version = "3.12.10"
+
+[pipenv]
+allow_prereleases = true

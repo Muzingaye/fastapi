@@ -1,3 +1,4 @@
+from fastapi import Request
 from collections.abc import AsyncGenerator
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
@@ -26,3 +27,14 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+# Cater for graphql context
+def get_graphql_context(request: Request):
+
+    db = SessionLocal()
+
+    return {
+        "request": request,
+        "db": db
+    }
