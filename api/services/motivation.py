@@ -1,12 +1,13 @@
 from typing import Any, List, Optional
-from sqlalchemy.orm import Session
-from config import settings
-from .. models import post
-from .. schemas import story
 
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
+from config import settings
 from langchain_core.output_parsers import PydanticOutputParser
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
+from langchain_openai import ChatOpenAI
+from sqlalchemy.orm import Session
+
+from ..models import post
+from ..schemas import story
 
 
 class Motivation:

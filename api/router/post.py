@@ -1,14 +1,17 @@
 
-from fastapi import FastAPI, status, Response, HTTPException, Depends, APIRouter, Cookie
-from sqlalchemy.orm import Session
-from sqlalchemy import func
-from typing import List, Optional
-from .. models import Post, Vote, User
-from ..db.database import engine, get_db
-from ..schemas import schemas, job
-from ..services.utls import oauth2
 import uuid
+from typing import List, Optional
 
+from sqlalchemy import func
+from sqlalchemy.orm import Session
+
+from fastapi import (APIRouter, Cookie, Depends, FastAPI, HTTPException,
+                     Response, status)
+
+from ..db.database import engine, get_db
+from ..models import Post, User, Vote
+from ..schemas import job, schemas
+from ..services.utls import oauth2
 
 router = APIRouter(
     prefix="/posts",

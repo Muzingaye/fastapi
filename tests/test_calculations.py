@@ -1,5 +1,6 @@
-from calculations import add, subtract, BankAccount
 import pytest
+from calculations import BankAccount, add, subtract
+
 
 @pytest.mark.parametrize("num1, num2, result", [
     (3, 2, 5),

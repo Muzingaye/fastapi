@@ -23,6 +23,7 @@ psycopg = {extras = ["binary"], version = "*"}
 promise = "==2.3"
 graphql-core = "<3.3,>=3.2"
 graphql-relay = "<4,>=3"
+isort = "*"
 
 [dev-packages]
 pytest = "*"

@@ -3,6 +3,7 @@ from httpx import AsyncClient
 
 from tests.conftest import auth_header, create_user, login
 
+
 @pytest.mark.anyio
 async def test_posts_not_found(client: AsyncClient):
     resp = await client.get("/posts/999",  follow_redirects=True)

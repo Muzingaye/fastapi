@@ -1,7 +1,9 @@
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
+
 from api.db import database
 from api.utls import utils
+
 # from schema import UserType
 from .types import PostType, UserType
 

@@ -3,6 +3,7 @@ from httpx import AsyncClient
 
 from tests.conftest import auth_header, login
 
+
 @pytest.mark.anyio
 async def test_get_event(client: AsyncClient):
     resp = await client.get("/event/1",  follow_redirects=True)

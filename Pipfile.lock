@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6b754aeac41bdda75434e41cbb11b3f58c090cb7a725fd217ecc3c56107fd38b"
+            "sha256": "d9e70bf8a2517cd34a1fa07043b4c52cb124bdfb6e1b6eaae0b6a8677b0b2d1f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -785,6 +785,14 @@
             "markers": "python_version >= '3.8'",
             "version": "==1.0.9"
         },
+        "httpcore2": {
+            "hashes": [
+                "sha256:13c0cc3d1919d4f28457f60cd2c2abe04113a8af184ccf1142811beba936f9dc",
+                "sha256:7df06cfb34070cae4f7c89be69dc1095eca138e9704ceffb98d25c1912ab6f01"
+            ],
+            "markers": "sys_platform != 'emscripten'",
+            "version": "==2.10.0"
+        },
         "httptools": {
             "hashes": [
                 "sha256:0770728beb05094c809b98e814edff5fef69d26ad7d21185f2f6d5884a0ba683",
@@ -848,6 +856,14 @@
             "markers": "python_version >= '3.8'",
             "version": "==0.28.1"
         },
+        "httpx2": {
+            "hashes": [
+                "sha256:5e3194a432701e1cc6f69a8b1b2fa199ef907013fede8d9a09a2c5b7b8141a18",
+                "sha256:8741d7329fe2c7885fc9ceb61c8217acfb87a85f75723714b89ebf7ad7196338"
+            ],
+            "markers": "python_version >= '3.10'",
+            "version": "==2.10.0"
+        },
         "idna": {
             "hashes": [
                 "sha256:7f952cbe720b688055e3f87de14f5c3e5fdaa8bc3928985c4077ca689de849a2",
@@ -864,6 +880,15 @@
             "index": "pypi",
             "markers": "python_version >= '3.9'",
             "version": "==5.8.0"
+        },
+        "isort": {
+            "hashes": [
+                "sha256:170d1e4b905f957b50bd24fd9b29af1bf7fca64748ba2307a487632f877c6795",
+                "sha256:37aacdaacb00abd7c486c1546e5f3ac0ebbe1ad74c365b81bb9fb1db765ba9e5"
+            ],
+            "index": "pypi",
+            "markers": "python_full_version >= '3.10.0'",
+            "version": "==9.0.0b2"
         },
         "itsdangerous": {
             "hashes": [
@@ -1025,12 +1050,12 @@
         },
         "langchain-openai": {
             "hashes": [
-                "sha256:351c9dd409ea3ba6562916a9f4655bbf1530e7d84e325b0681e984d63118850b",
-                "sha256:416fbb39ccb62f0dac8180387a56b70f255b8c14c2ec3f774c4074dbcd9aae04"
+                "sha256:8b9b5f25a640883879a1cd2728a5a09a62a976d80ddf88611420025817beaf6d",
+                "sha256:bf86fefc842122412a5bbf1a34fb4c993c3c9f873c43a3c57cf8fef0f0506a9e"
             ],
             "index": "pypi",
             "markers": "python_full_version >= '3.10.0' and python_full_version < '4.0.0'",
-            "version": "==1.4.3"
+            "version": "==1.5.0"
         },
         "langchain-protocol": {
             "hashes": [
@@ -1201,11 +1226,11 @@
         },
         "openai": {
             "hashes": [
-                "sha256:89089789197ccdb87f173a03145ed1598d00795220c93e96cf712b1cbf5e5f2b",
-                "sha256:e3e6f8bc1ba30ddf381ace1a14340eed381cb984a1a59bd0f34b5be3b5d49cfa"
+                "sha256:8d32ac3a6647a66910d6cb8a64f0fa5a6c823604b6e82db83d9d055c6709bd51",
+                "sha256:ffd00ef1678d70957e1f1ed98d5bfcf1d661f41ea4482f22e7d0144a66435a49"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==2.54.0"
+            "version": "==3.0.0"
         },
         "opentelemetry-api": {
             "hashes": [
@@ -2379,6 +2404,14 @@
             "markers": "python_version >= '3.8'",
             "version": "==4.70.0"
         },
+        "truststore": {
+            "hashes": [
+                "sha256:9d91bd436463ad5e4ee4aba766628dd6cd7010cf3e2461756b3303710eebc301",
+                "sha256:adaeaecf1cbb5f4de3b1959b42d41f6fab57b2b1666adb59e89cb0b53361d981"
+            ],
+            "markers": "sys_platform != 'emscripten'",
+            "version": "==0.10.4"
+        },
         "typer": {
             "hashes": [
                 "sha256:53150287edd11baeb4e4722c8e394fcdf8181c0ae89485cba8d25c778d5edd56",
@@ -2408,7 +2441,7 @@
                 "sha256:4a1518b8993086a7982523e071643f3c0e5f213e75b21318e78bcabfff9d1415",
                 "sha256:dc096730c87af6cab1b171c9d532be840741ff5d459015e7f6947bd7d7e54931"
             ],
-            "markers": "platform_system == 'Windows'",
+            "markers": "sys_platform == 'win32'",
             "version": "==2026.3"
         },
         "urllib3": {

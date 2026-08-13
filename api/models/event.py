@@ -1,13 +1,16 @@
-from sqlalchemy import Index, Column, Integer, String, Boolean, DateTime, ForeignKey
-from sqlalchemy.sql.sqltypes import TIMESTAMP
-from sqlalchemy.sql.expression import text
-from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship
-from api.db.database import Base
-import sqlmodel
-from sqlmodel import SQLModel
 from datetime import datetime, timezone
+
+import sqlmodel
+from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Index, Integer,
+                        String)
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+from sqlalchemy.sql.expression import text
+from sqlalchemy.sql.sqltypes import TIMESTAMP
+from sqlmodel import SQLModel
 from timescaledb import TimescaleModel
+
+from api.db.database import Base
 
 
 def get_utc_now():

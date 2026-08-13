@@ -1,13 +1,15 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import select, func, cast, Date
-from timescaledb.hyperfunctions import time_bucket
-from sqlalchemy.orm import Session
-from ..schemas.event import EventSchema,EventCreate, EventUpdate
 from typing import List
-from ..models.event import Event
+
+from sqlalchemy import Date, cast, func, select
+from sqlalchemy.orm import Session
+from timescaledb.hyperfunctions import time_bucket
+
 from api.db.database import engine, get_db
 from api.services.utls import oauth2
+from fastapi import APIRouter, Depends, HTTPException, status
 
+from ..models.event import Event
+from ..schemas.event import EventCreate, EventSchema, EventUpdate
 
 router = APIRouter(
     prefix="/events",

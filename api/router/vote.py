@@ -1,8 +1,10 @@
-from .. models import Vote
-from ..db.database import engine, get_db
-from fastapi import FastAPI, status, Response, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 
+from fastapi import (APIRouter, Depends, FastAPI, HTTPException, Response,
+                     status)
+
+from ..db.database import engine, get_db
+from ..models import Vote
 from ..schemas import schemas
 from ..services.utls import oauth2
 from ..utls import utils

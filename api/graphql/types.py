@@ -1,9 +1,8 @@
 from graphene_sqlalchemy import SQLAlchemyObjectType
+
+from api.models.post import Post
 # from api.models import User, Post
 from api.models.user import User
-from api.models.post import Post
-
-
 
 print("Debug User =", User)
 print("Debug User type =", type(User))

@@ -1,12 +1,11 @@
 from io import BytesIO
 from pathlib import Path
 from unittest.mock import AsyncMock, patch
+
 import pytest
 from httpx import AsyncClient
 
 from tests.conftest import auth_header, create_user, login
-
-
 
 
 @pytest.mark.anyio

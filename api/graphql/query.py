@@ -1,10 +1,10 @@
-import graphene 
+import graphene
+from sqlalchemy import func
+
 from api.db import database
 # from api.schemas import schemas
 from api.models import Post, User, Vote
 
-import graphene
-from sqlalchemy import func
 from .types import PostType, UserType
 
 

@@ -8,7 +8,6 @@ sys.path.insert(0, str(ROOT))
 import os
 from collections.abc import AsyncGenerator
 
-
 os.environ["DATABASE_URL"] = (f"mssql+pyodbc://localhost/FastApiTestDB?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes&timezone=UTC")
 os.environ["BUCKET_NAME"] = "test"
 os.environ["SECRET-KEY"] = "test_secret-key-for-testing-only"
@@ -20,12 +19,12 @@ os.environ["REGION"] = "test_secret-key-for-testing-only"
 
 import pytest
 from httpx import ASGITransport, AsyncClient
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (AsyncSession, async_sessionmaker,
+                                    create_async_engine)
 from sqlalchemy.pool import NullPool
 
-from api.db.database import Base, get_db
 from api.app import app
-
+from api.db.database import Base, get_db
 
 pytest_plugin = ["anyio"]
 

@@ -1,9 +1,11 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
-from sqlalchemy.sql.sqltypes import TIMESTAMP
-from sqlalchemy.sql.expression import text
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship, Mapped
+from sqlalchemy.sql.expression import text
+from sqlalchemy.sql.sqltypes import TIMESTAMP
+
 from ..db.database import Base
+
 # from .post import Post
 
 

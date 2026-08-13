@@ -1,11 +1,13 @@
+from starlette_graphene3 import GraphQLApp
+
+from api.db.database import Base, SessionLocal, engine
+from api.graphql.schema import schema
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from starlette_graphene3 import GraphQLApp
-from api.db.database import Base, engine, SessionLocal
-from .router import user, post, auth, vote,event
-from .config import settings
 
-from api.graphql.schema import schema
+from .config import settings
+from .router import auth, event, post, user, vote
+
 # from api.db.database import SessionLocal
 
 Base.metadata.create_all(bind=engine)

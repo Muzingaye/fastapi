@@ -1,12 +1,14 @@
-from fastapi import Request
 from collections.abc import AsyncGenerator
-from sqlalchemy import create_engine
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-# from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import declarative_base
 
-from sqlalchemy.orm import sessionmaker, DeclarativeBase, relationship
+from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import (AsyncSession, async_sessionmaker,
+                                    create_async_engine)
+# from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import (DeclarativeBase, declarative_base, relationship,
+                            sessionmaker)
+
 from api.config import settings
+from fastapi import Request
 
 SQL_DATABASE_URL = (
     f"mssql+pyodbc://{settings.database_hostname}/"

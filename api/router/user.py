@@ -1,9 +1,11 @@
 
-from .. models import User
-from ..db.database import engine, get_db
-from fastapi import FastAPI, status, Response, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 
+from fastapi import (APIRouter, Depends, FastAPI, HTTPException, Response,
+                     status)
+
+from ..db.database import engine, get_db
+from ..models import User
 from ..schemas import schemas
 from ..utls import utils
 

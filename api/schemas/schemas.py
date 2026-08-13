@@ -1,7 +1,9 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import datetime
-from  typing import Optional
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, EmailStr
 from pydantic.types import conint
+
 
 class UserCreate(BaseModel):
     email: EmailStr
