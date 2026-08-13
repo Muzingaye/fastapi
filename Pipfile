@@ -26,6 +26,7 @@ graphql-relay = "<4,>=3"
 
 [dev-packages]
 pytest = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.12"
