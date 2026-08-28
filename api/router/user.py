@@ -41,12 +41,12 @@ def get_user(id: int, db: Session = Depends(get_db)):
 
 
 
-# @router.get("/{email}", response_class=schemas.UserForgotPassword)
-# def forgot_password(email: str, db: Session = Depends(get_db)):
+@router.get("/{email}", response_class=schemas.UserForgotPassword)
+def forgot_password(email: str, db: Session = Depends(get_db)):
+    pass
 #     res = db.execute(
 #         select(models.User).where(
 #             func.lower(models.User.email) == email # replacen this requesteddata
 #         )
 #     )
-
 #     user = res.scalar().first()

@@ -14,7 +14,10 @@ class Settings(BaseSettings):
     algorithm: str
     access_token_expire_mins: int
     Debug: bool= False
-    open_api_key: str
+    openai_api_key: Optional[str] =None
+    mistral_api_key: Optional[str] =None
+    google_api_key: Optional[str] =None
+    pay_private_key: Optional[str] =None
     allowed_origins: list[str]
 
     @field_validator("allowed_origins")
